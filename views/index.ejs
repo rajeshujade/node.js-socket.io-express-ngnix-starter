@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/socket/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <div id="divID">
+    	
+    </div>
+    <script src="http://www.25571070.com/socket/socket.io/socket.io.js"></script>
+	<script>
+	    var socket = io.connect('ws://25571070.com');
+	    //var socket = io.connect('http://www.25571070.com');
+	    var i = 0;
+	    socket.on('news', function(data) {
+	    	var div = document.getElementById('divID');
+	    	i = i + 1;
+	    	div.innerHTML = div.innerHTML + '<p>'+ data.hello+'('+i+')'+'</p>';
+	        console.log(data);
+	    });
+	</script>
+  </body>
+</html>

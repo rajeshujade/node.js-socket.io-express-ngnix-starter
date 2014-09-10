@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+var debug = require('debug')('25571070');
+var app = require('../app');
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
+
+var sockets = require('socket.io')({
+  'transports': ['websocket', 'flashsocket','htmlfile','xhr-polling','jsonp-polling']
+});
+
+var io = sockets.listen(server,{ resource: '/socket.io/','sync disconnect on unload':true });
+
+io.sockets.on('connection', function (socket) {  
+  setInterval(function() {socket.emit('news', { hello: 'hello world' })}, 1000);
+});
+/*
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (socket) {
+  setInterval(function() {socket.emit('news', { hello: 'hello world' })}, 1000);
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});*/
